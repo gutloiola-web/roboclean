@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#F3F4F6"/>
+  <rect x="170" y="160" width="180" height="125" rx="36" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+  <circle cx="220" cy="212" r="14" stroke="#16A34A" stroke-width="2"/>
+  <circle cx="300" cy="212" r="8" fill="#16A34A"/>
+  <path d="M380 220 H425" stroke="#16A34A" stroke-width="2" stroke-dasharray="6 6"/>
+  <rect x="455" y="150" width="170" height="145" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+  <text x="540" y="228" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="16" fill="#374151">Hub SPIKE</text>
+  <text x="400" y="410" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="18" fill="#4B5563">Comunicação Bluetooth: Controle Xbox e Hub</text>
+</svg>

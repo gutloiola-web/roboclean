@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#F3F4F6"/>
+  <rect x="210" y="160" width="160" height="90" rx="20" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+  <circle cx="260" cy="205" r="20" stroke="#16A34A" stroke-width="2"/>
+  <circle cx="320" cy="205" r="20" stroke="#16A34A" stroke-width="2"/>
+  <path d="M440 240 H600 L575 315 H465 L440 240 Z" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+  <text x="400" y="410" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="18" fill="#4B5563">Sensor de Distância e Pá Coletora</text>
+</svg>

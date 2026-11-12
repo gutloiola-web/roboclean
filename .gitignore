@@ -1,0 +1,10 @@
+# Dependências locais / temporárias
+scratch/
+.system_generated/
+*.tmp
+*.log
+
+# No Render os arquivos são mantidos pelo Git
+.DS_Store
+Thumbs.db
+

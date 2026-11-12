@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#F3F4F6"/>
+  <rect x="280" y="130" width="240" height="170" rx="16" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+  <rect x="335" y="165" width="130" height="80" rx="8" stroke="#16A34A" stroke-width="2"/>
+  <circle cx="375" cy="205" r="10" stroke="#16A34A" stroke-width="2"/>
+  <circle cx="425" cy="205" r="10" stroke="#16A34A" stroke-width="2"/>
+  <path d="M310 300 H490 L470 340 H330 L310 300 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="2"/>
+  <text x="400" y="410" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="18" fill="#4B5563">Protótipo RoboClean (LEGO SPIKE)</text>
+</svg>

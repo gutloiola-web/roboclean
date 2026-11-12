@@ -1,0 +1,115 @@
+================================================================================
+PROJETO ESCOLAR: RoboClean — Tecnologia a serviço do meio ambiente
+EVENTO: Feira de Ciências e Inovação "Síntese" (2026)
+TECNOLOGIAS: PHP 8+ | MySQL / MariaDB (PDO) | HTML5 | CSS3 | JavaScript
+================================================================================
+
+Este guia explica passo a passo como rodar o site localmente no seu computador
+(usando XAMPP ou Laragon) e como publicá-lo em uma hospedagem na internet.
+
+--------------------------------------------------------------------------------
+1. DADOS DE ACESSO INICIAIS DO PAINEL ADMINISTRATIVO (/admin)
+--------------------------------------------------------------------------------
+URL do Painel: http://localhost/sintese/admin/  (ou http://localhost:8000/admin/)
+Usuário inicial: admin
+Senha inicial:   roboclean2026
+
+COMO TROCAR A SENHA DO ADMIN:
+Se desejar alterar a senha padrão, abra o terminal na pasta do projeto e execute:
+  php -r "echo password_hash('SUA_NOVA_SENHA_AQUI', PASSWORD_DEFAULT);"
+Depois, copie o código gerado e atualize o campo `senha_hash` na tabela `admins`
+pelo phpMyAdmin (ou diretamente no arquivo `banco.sql` antes de importar).
+
+--------------------------------------------------------------------------------
+2. COMO RODAR NO XAMPP (PASSO A PASSO)
+--------------------------------------------------------------------------------
+1) Copie a pasta do projeto (`sintese`) para dentro de:
+   C:\xampp\htdocs\sintese
+
+2) Abra o "XAMPP Control Panel" e clique em "Start" nos módulos:
+   - Apache
+   - MySQL
+
+3) Importando o banco de dados (`banco.sql`):
+   - Nota automática: O arquivo `includes/db.php` já tenta criar e importar o
+     banco `roboclean_db` automaticamente no primeiro acesso caso o usuário
+     seja `root` sem senha!
+   - Caso prefira importar manualmente pelo phpMyAdmin:
+     a) Acesse http://localhost/phpmyadmin no navegador.
+     b) Clique na aba "Importar" (Import) no menu superior.
+     c) Clique em "Escolher arquivo" e selecione o arquivo `banco.sql` que está
+        na raiz do projeto.
+     d) Role até o final e clique em "Importar" / "Executar".
+
+4) Acesse o site no navegador:
+   - Site principal:        http://localhost/sintese/
+   - Painel administrativo: http://localhost/sintese/admin/
+
+--------------------------------------------------------------------------------
+3. COMO RODAR NO LARAGON (PASSO A PASSO)
+--------------------------------------------------------------------------------
+1) Copie a pasta do projeto para:
+   C:\laragon\www\sintese
+
+2) Abra o Laragon e clique em "Start All" (Iniciar Tudo) para ligar Apache/Nginx
+   e MySQL.
+
+3) Importe o arquivo `banco.sql` usando o HeidiSQL ou phpMyAdmin (ou basta abrir
+   a página inicial que o sistema criará o banco `roboclean_db` automaticamente).
+
+4) Acesse no navegador:
+   - http://localhost/sintese/  ou  http://sintese.test/
+
+--------------------------------------------------------------------------------
+4. CONFIGURANDO O ARQUIVO includes/config.php
+--------------------------------------------------------------------------------
+Caso seu MySQL utilize outra porta, usuário ou senha, abra o arquivo:
+   includes/config.php
+
+E edite as linhas abaixo:
+   define('DB_HOST', '127.0.0.1');
+   define('DB_PORT', '3306');
+   define('DB_NAME', 'roboclean_db');
+   define('DB_USER', 'root');
+   define('DB_PASS', '');
+
+Neste mesmo arquivo (`includes/config.php`), você também pode alterar facilmente
+o nome da sua escola que aparece no rodapé:
+   define('ESCOLA_NOME', 'Nome da Sua Escola Aqui');
+
+--------------------------------------------------------------------------------
+5. COMO EDITAR OS INTEGRANTES, FOTOS E MENSAGENS
+--------------------------------------------------------------------------------
+- Equipe (Artur, Breno e demais colegas):
+  Acesse `/admin`, faça login e use a seção "Gerenciar Equipe" para adicionar
+  novos integrantes, trocar fotos (JPG, PNG, WEBP) ou editar funções.
+- Galeria de Fotos e Vídeos:
+  No painel `/admin`, envie fotos ou vídeos curtos (.mp4) dos testes do robô.
+- Mural de Mensagens:
+  Quando os visitantes da feira Síntese enviarem recados pelo site, eles ficarão
+  com status "Pendente". Entre em `/admin` e clique em "Aprovar" para exibi-los
+  no telão!
+
+--------------------------------------------------------------------------------
+6. COMO PUBLICAR EM UMA HOSPEDAGEM NA INTERNET (Hostinger, Locaweb, InfinityFree, etc.)
+--------------------------------------------------------------------------------
+1) No painel da sua hospedagem (cPanel / hPanel), crie um Banco de Dados MySQL
+   e anote:
+   - Host do banco (ex.: localhost ou sqlXXX.hospedagem.com)
+   - Nome do banco de dados
+   - Usuário do banco de dados
+   - Senha do banco de dados
+
+2) Abra o phpMyAdmin da hospedagem, selecione o banco criado e importe as
+   tabelas do arquivo `banco.sql` (remova ou comente as linhas CREATE DATABASE
+   e USE caso a hospedagem exija usar o nome de banco criado no painel).
+
+3) Edite o arquivo `includes/config.php` com os dados fornecidos pela hospedagem.
+
+4) Envie todos os arquivos do projeto para a pasta `public_html` (ou `htdocs`)
+   usando o Gerenciador de Arquivos da hospedagem ou FileZilla (FTP).
+
+5) Certifique-se de que a pasta `assets/img/uploads/` tenha permissão de escrita
+   (755) para receber os uploads de fotos e vídeos do painel admin.
+================================================================================
+
