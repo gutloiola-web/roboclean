@@ -677,8 +677,11 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
 
             <?php
             $listaMembrosExibicao = !empty($membrosEquipe) ? $membrosEquipe : [
-                ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/membro_artur.svg'],
-                ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/membro_breno.svg'],
+                ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
+                ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
+                ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
+                ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
+                ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
             ];
             ?>
 
