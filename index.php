@@ -669,22 +669,6 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                 <p class="section-subtitle">Estudantes responsáveis pelo planejamento, montagem, programação e apresentação na feira <?= e(EVENTO_NOME) ?>.</p>
             </div>
 
-            <?php if (!$db_disponivel): ?>
-                <div class="db-friendly-notice" role="status">
-                    <span><?= e($db_mensagem_status) ?> Exibindo os integrantes padrão do projeto:</span>
-                </div>
-            <?php endif; ?>
-
-            <?php
-            $listaMembrosExibicao = !empty($membrosEquipe) ? $membrosEquipe : [
-                ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
-                ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
-                ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
-                ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
-                ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
-            ];
-            ?>
-
             <div class="team-grid">
                 <?php foreach ($listaMembrosExibicao as $membro): ?>
                     <?php
@@ -722,35 +706,6 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                 <h2 class="section-title">Galeria</h2>
                 <p class="section-subtitle">Fotos e vídeos da construção, programação e testes do RoboClean (clique nas imagens para ampliar).</p>
             </div>
-
-            <?php if (!$db_disponivel): ?>
-                <div class="db-friendly-notice" role="status">
-                    <span><?= e($db_mensagem_status) ?> Exibindo ilustrações demonstrativas do projeto:</span>
-                </div>
-            <?php endif; ?>
-
-            <?php
-            $listaGaleriaExibicao = !empty($itensGaleria) ? $itensGaleria : [
-                [
-                    'titulo'  => 'Robô Catador de Lixo construído com LEGO Education SPIKE',
-                    'arquivo' => 'assets/img/spike_galeria_1.jpg',
-                    'tipo'    => 'foto',
-                    'data'    => date('Y-m-d H:i:s')
-                ],
-                [
-                    'titulo'  => 'Controle de Xbox conectado via Bluetooth ao Hub LEGO SPIKE',
-                    'arquivo' => 'assets/img/spike_galeria_2.jpg',
-                    'tipo'    => 'foto',
-                    'data'    => date('Y-m-d H:i:s')
-                ],
-                [
-                    'titulo'  => 'Garra/Pá Coletora e Sensor de Distância em Testes Práticos',
-                    'arquivo' => 'assets/img/spike_galeria_3.jpg',
-                    'tipo'    => 'foto',
-                    'data'    => date('Y-m-d H:i:s')
-                ],
-            ];
-            ?>
 
             <div class="gallery-grid">
                 <?php foreach ($listaGaleriaExibicao as $item): ?>
@@ -859,11 +814,7 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                 <div class="mural-messages-col">
                     <h3 class="mural-list-title">Recados Aprovados (<?= count($mensagensAprovadas) ?>)</h3>
 
-                    <?php if (!$db_disponivel): ?>
-                        <div class="db-friendly-notice" role="status">
-                            <p><?= e($db_mensagem_status) ?></p>
-                        </div>
-                    <?php elseif (empty($mensagensAprovadas)): ?>
+                    <?php if (empty($mensagensAprovadas)): ?>
                         <div class="mural-empty-box">
                             <p>Seja o primeiro visitante da feira <strong><?= e(EVENTO_NOME) ?></strong> a deixar uma mensagem para o RoboClean.</p>
                         </div>

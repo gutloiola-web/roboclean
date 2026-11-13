@@ -1,4 +1,4 @@
-﻿# Script de Sincronização Automática com o GitHub / Render
+# Script de Sincronização Automática com o GitHub / Render
 $ErrorActionPreference = "SilentlyContinue"
 git add .
 $status = git status --porcelain
@@ -9,3 +9,4 @@ if ($status) {
 } else {
     Write-Output "Nenhuma alteracao pendente para envio."
 }
+

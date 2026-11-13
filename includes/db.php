@@ -99,15 +99,34 @@ function obterContadorVisitas(?PDO $pdo): ?int
 function buscarMembros(?PDO $pdo): array
 {
     if (!$pdo) {
-        return [];
+        return [
+            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
+            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
+            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
+            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
+            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
+        ];
     }
 
     try {
         $stmt = $pdo->prepare('SELECT id, nome, funcao, foto, ordem FROM membros ORDER BY ordem ASC, id ASC');
         $stmt->execute();
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+        return !empty($res) ? $res : [
+            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
+            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
+            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
+            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
+            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
+        ];
     } catch (Throwable $e) {
-        return [];
+        return [
+            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
+            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
+            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
+            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
+            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
+        ];
     }
 }
 
@@ -116,16 +135,38 @@ function buscarMembros(?PDO $pdo): array
  */
 function buscarGaleria(?PDO $pdo): array
 {
+    $galeriaPadrao = [
+        [
+            'titulo'  => 'Robô Catador de Lixo construído com LEGO Education SPIKE',
+            'arquivo' => 'assets/img/spike_galeria_1.jpg',
+            'tipo'    => 'foto',
+            'data'    => date('Y-m-d H:i:s')
+        ],
+        [
+            'titulo'  => 'Controle de Xbox conectado via Bluetooth ao Hub LEGO SPIKE',
+            'arquivo' => 'assets/img/spike_galeria_2.jpg',
+            'tipo'    => 'foto',
+            'data'    => date('Y-m-d H:i:s')
+        ],
+        [
+            'titulo'  => 'Garra/Pá Coletora e Sensor de Distância em Testes Práticos',
+            'arquivo' => 'assets/img/spike_galeria_3.jpg',
+            'tipo'    => 'foto',
+            'data'    => date('Y-m-d H:i:s')
+        ],
+    ];
+
     if (!$pdo) {
-        return [];
+        return $galeriaPadrao;
     }
 
     try {
         $stmt = $pdo->prepare('SELECT id, titulo, arquivo, tipo, data FROM galeria ORDER BY data DESC, id DESC');
         $stmt->execute();
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+        return !empty($res) ? $res : $galeriaPadrao;
     } catch (Throwable $e) {
-        return [];
+        return $galeriaPadrao;
     }
 }
 
