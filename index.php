@@ -670,7 +670,7 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
             </div>
 
             <div class="team-grid">
-                <?php foreach ($listaMembrosExibicao as $membro): ?>
+                <?php foreach ($membrosEquipe as $membro): ?>
                     <?php
                     $fotoMembro = !empty($membro['foto']) ? $membro['foto'] : 'assets/img/membro_placeholder.svg';
                     $versaoFoto = (int) @filemtime(__DIR__ . '/' . $fotoMembro);
@@ -708,7 +708,7 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
             </div>
 
             <div class="gallery-grid">
-                <?php foreach ($listaGaleriaExibicao as $item): ?>
+                <?php foreach ($itensGaleria as $item): ?>
                     <figure class="gallery-card">
                         <?php if (($item['tipo'] ?? 'foto') === 'video'): ?>
                             <div class="gallery-media-wrap">
