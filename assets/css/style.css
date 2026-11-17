@@ -2087,7 +2087,8 @@ textarea:focus {
 }
 
 .hardware-xray-pin.is-active {
-    border-color: #FEF08A; /* Amarelo LEGO sutil no anel do pino ativo */
+    border-color: #FEF08A;
+    /* Amarelo LEGO sutil no anel do pino ativo */
 }
 
 @keyframes hardware-pin-pulse {
@@ -2095,10 +2096,12 @@ textarea:focus {
         transform: scale(0.9);
         opacity: 0.9;
     }
+
     70% {
         transform: scale(1.6);
         opacity: 0;
     }
+
     100% {
         transform: scale(1.6);
         opacity: 0;
@@ -2202,6 +2205,7 @@ textarea:focus {
         opacity: 0;
         transform: translateY(6px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
