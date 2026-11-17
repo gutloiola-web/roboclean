@@ -73,11 +73,12 @@ if ($ultimoTexto !== '' && mb_strtolower($ultimoTexto, 'UTF-8') === mb_strtolowe
 // 5. Inserção segura com PDO Prepared Statement (aprovada = 0 por padrão)
 try {
     $stmt = $pdo->prepare(
-        'INSERT INTO mensagens (nome, texto, aprovada, data) VALUES (:nome, :texto, 0, NOW())'
+        'INSERT INTO mensagens (nome, texto, aprovada, data) VALUES (:nome, :texto, 0, :data)'
     );
     $stmt->execute([
         ':nome'  => $nome,
         ':texto' => $texto,
+        ':data'  => date('Y-m-d H:i:s'),
     ]);
 
     // Atualiza marcadores de proteção na sessão

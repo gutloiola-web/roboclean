@@ -273,11 +273,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                         throw new RuntimeException($up['erro']);
                     }
 
-                    $stmt = $pdo->prepare('INSERT INTO galeria (titulo, arquivo, tipo, data) VALUES (:titulo, :arquivo, :tipo, NOW())');
+                    $stmt = $pdo->prepare('INSERT INTO galeria (titulo, arquivo, tipo, data) VALUES (:titulo, :arquivo, :tipo, :data)');
                     $stmt->execute([
                         ':titulo'  => mb_substr($titulo, 0, 150, 'UTF-8'),
                         ':arquivo' => $up['caminho'],
                         ':tipo'    => $up['tipo'],
+                        ':data'    => date('Y-m-d H:i:s'),
                     ]);
 
                     $alertaTipo  = 'sucesso';

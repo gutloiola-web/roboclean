@@ -26,7 +26,7 @@ try {
         PDO::ATTR_ERRMODE                  => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE       => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES         => false,
-        PDO::ATTR_TIMEOUT                  => 3,
+        PDO::ATTR_TIMEOUT                  => 2,
         PDO::MYSQL_ATTR_INIT_COMMAND       => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
     ];
 
@@ -56,9 +56,116 @@ try {
         }
     }
 
+    // Fallback automático para banco local PDO SQLite (funciona no Render e sem XAMPP MySQL ligado)
     if (!$db_disponivel) {
-        $pdo = null;
-        $db_mensagem_status = 'O banco de dados MySQL não está conectado no momento. As informações dinâmicas serão exibidas assim que o serviço MySQL for iniciado.';
+        try {
+            $caminhoSqlite = __DIR__ . '/roboclean.sqlite';
+            $pdo = new PDO('sqlite:' . $caminhoSqlite, null, null, [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]);
+            inicializarBancoSqlite($pdo);
+            $db_disponivel = true;
+            $db_mensagem_status = '';
+        } catch (Throwable $sqliteEx) {
+            $pdo = null;
+            $db_disponivel = false;
+            $db_mensagem_status = 'O banco de dados não está conectado no momento.';
+        }
+    }
+}
+
+/**
+ * Inicializa as tabelas e dados iniciais no banco SQLite caso ainda não existam.
+ */
+function inicializarBancoSqlite(PDO $pdo): void
+{
+    $pdo->exec('
+        CREATE TABLE IF NOT EXISTS membros (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            funcao TEXT NOT NULL,
+            foto TEXT DEFAULT NULL,
+            ordem INTEGER NOT NULL DEFAULT 1
+        );
+        CREATE TABLE IF NOT EXISTS galeria (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            arquivo TEXT NOT NULL,
+            tipo TEXT NOT NULL DEFAULT "foto",
+            data TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS mensagens (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            texto TEXT NOT NULL,
+            aprovada INTEGER NOT NULL DEFAULT 0,
+            data TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS visitas (
+            id INTEGER PRIMARY KEY,
+            total INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE TABLE IF NOT EXISTS admins (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT NOT NULL UNIQUE,
+            senha_hash TEXT NOT NULL
+        );
+    ');
+
+    $agora = date('Y-m-d H:i:s');
+
+    if ((int) $pdo->query('SELECT COUNT(*) FROM membros')->fetchColumn() === 0) {
+        $stmtM = $pdo->prepare('INSERT INTO membros (nome, funcao, foto, ordem) VALUES (:nome, :funcao, :foto, :ordem)');
+        $iniciaisMembros = [
+            ['Artur', 'Construção LEGO SPIKE & Engenharia do Robô', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1],
+            ['Breno', 'Programação, Controle Xbox & Sensores', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2],
+            ['Gustavo', 'Pesquisa Ambiental & Documentação', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3],
+            ['Paulo', 'Testes Práticos & Apresentação Síntese', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4],
+            ['Kaicky', 'Montagem e pesquisa', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5],
+        ];
+        foreach ($iniciaisMembros as $m) {
+            $stmtM->execute([':nome' => $m[0], ':funcao' => $m[1], ':foto' => $m[2], ':ordem' => $m[3]]);
+        }
+    }
+
+    if ((int) $pdo->query('SELECT COUNT(*) FROM galeria')->fetchColumn() === 0) {
+        $stmtG = $pdo->prepare('INSERT INTO galeria (titulo, arquivo, tipo, data) VALUES (:titulo, :arquivo, :tipo, :data)');
+        $iniciaisGaleria = [
+            ['Protótipo RoboClean construído com LEGO Education SPIKE Prime e garra coletora frontal', 'assets/img/spike_galeria_1.jpg'],
+            ['Vista superior: chassi modular ciano, Smart Hub V2 e garra atuadora acoplada à lixeira', 'assets/img/spike_galeria_2.jpg'],
+            ['Detalhe lateral das conexões do Smart Hub, eixo de tração e sistema de pinça com engrenagens', 'assets/img/spike_galeria_3.jpg'],
+            ['Vista traseira: posicionamento do Smart Hub V2 sobre o eixo para máxima tração', 'assets/img/spike_galeria_4.jpg'],
+        ];
+        foreach ($iniciaisGaleria as $g) {
+            $stmtG->execute([':titulo' => $g[0], ':arquivo' => $g[1], ':tipo' => 'foto', ':data' => $agora]);
+        }
+    }
+
+    if ((int) $pdo->query('SELECT COUNT(*) FROM mensagens')->fetchColumn() === 0) {
+        $stmtMsg = $pdo->prepare('INSERT INTO mensagens (nome, texto, aprovada, data) VALUES (:nome, :texto, 1, :data)');
+        $stmtMsg->execute([
+            ':nome'  => 'Equipe RoboClean',
+            ':texto' => 'Bem-vindos à nossa apresentação na feira Síntese! Deixe seu comentário ou pergunta sobre o nosso robô catador de lixo.',
+            ':data'  => $agora,
+        ]);
+        $stmtMsg->execute([
+            ':nome'  => 'Coordenação Pedagógica',
+            ':texto' => 'Parabéns à equipe pela iniciativa de unir a robótica educacional LEGO SPIKE com a preservação do meio ambiente!',
+            ':data'  => $agora,
+        ]);
+    }
+
+    if ((int) $pdo->query('SELECT COUNT(*) FROM visitas')->fetchColumn() === 0) {
+        $pdo->exec('INSERT INTO visitas (id, total) VALUES (1, 1)');
+    }
+
+    if ((int) $pdo->query('SELECT COUNT(*) FROM admins')->fetchColumn() === 0) {
+        $stmtAdm = $pdo->prepare('INSERT INTO admins (usuario, senha_hash) VALUES (:usuario, :senha_hash)');
+        $stmtAdm->execute([
+            ':usuario'    => 'admin',
+            ':senha_hash' => '$2y$12$w8BhOQXDaEw2RXlYzTsIl.crNe6gjPAnrZtWKAiAeKtWHsb42yAHO',
+        ]);
     }
 }
 

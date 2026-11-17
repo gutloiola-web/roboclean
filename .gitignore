@@ -3,6 +3,7 @@ scratch/
 .system_generated/
 *.tmp
 *.log
+*.sqlite
 
 # No Render os arquivos são mantidos pelo Git
 .DS_Store
