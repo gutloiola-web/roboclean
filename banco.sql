@@ -24,19 +24,21 @@ CREATE TABLE IF NOT EXISTS `membros` (
   `ordem` INT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dados iniciais da equipe (Artur e Breno já cadastrados + espaço para os demais)
+-- Dados iniciais da equipe (Artur, Breno, Gustavo, Paulo e Kaicky)
 INSERT INTO `membros` (`id`, `nome`, `funcao`, `foto`, `ordem`) VALUES
-(1, 'Artur', 'Construção LEGO SPIKE & Engenharia do Robô', 'assets/img/membro_artur.svg', 1),
-(2, 'Breno', 'Programação, Controle Xbox & Sensores', 'assets/img/membro_breno.svg', 2),
-(3, 'Integrante 3 (Editar no Admin)', 'Pesquisa Ambiental & Documentação', 'assets/img/membro_placeholder.svg', 3),
-(4, 'Integrante 4 (Editar no Admin)', 'Testes Práticos & Apresentação Síntese', 'assets/img/membro_placeholder.svg', 4)
+(1, 'Artur', 'Construção LEGO SPIKE & Engenharia do Robô', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1),
+(2, 'Breno', 'Programação, Controle Xbox & Sensores', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2),
+(3, 'Gustavo', 'Pesquisa Ambiental & Documentação', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3),
+(4, 'Paulo', 'Testes Práticos & Apresentação Síntese', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4),
+(5, 'Kaicky', 'Montagem e pesquisa', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5)
 ON DUPLICATE KEY UPDATE
   `nome` = VALUES(`nome`),
-  `funcao` = VALUES(`funcao`);
+  `funcao` = VALUES(`funcao`),
+  `foto` = VALUES(`foto`);
 
 -- Para adicionar mais integrantes pelo SQL (ou use o painel em /admin):
 -- INSERT INTO `membros` (`nome`, `funcao`, `foto`, `ordem`) VALUES
--- ('Nome do Colega', 'Função no Projeto', NULL, 5);
+-- ('Nome do Colega', 'Função no Projeto', NULL, 6);
 
 -- ----------------------------------------------------------------------------
 -- 2. Tabela da Galeria (Fotos e Vídeos)
@@ -49,11 +51,12 @@ CREATE TABLE IF NOT EXISTS `galeria` (
   `data` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Itens iniciais da galeria com fotos de robôs feitos em LEGO SPIKE (editáveis pelo /admin)
+-- Itens iniciais da galeria com fotos reais do robô LEGO SPIKE (editáveis pelo /admin)
 INSERT INTO `galeria` (`id`, `titulo`, `arquivo`, `tipo`, `data`) VALUES
-(1, 'Robô Catador de Lixo construído com LEGO Education SPIKE', 'assets/img/spike_galeria_1.jpg', 'foto', NOW()),
-(2, 'Controle de Xbox conectado via Bluetooth ao Hub LEGO SPIKE', 'assets/img/spike_galeria_2.jpg', 'foto', NOW()),
-(3, 'Garra/Pá Coletora e Sensor de Distância em Testes Práticos', 'assets/img/spike_galeria_3.jpg', 'foto', NOW())
+(1, 'Protótipo RoboClean sobre a maleta oficial LEGO Education SPIKE Prime', 'assets/img/spike_galeria_1.jpg', 'foto', NOW()),
+(2, 'Vista superior: chassi modular ciano, Smart Hub V2 e garra atuadora acoplada à lixeira', 'assets/img/spike_galeria_2.jpg', 'foto', NOW()),
+(3, 'Detalhe lateral das conexões do Smart Hub, eixo de tração e sistema de pinça com engrenagens', 'assets/img/spike_galeria_3.jpg', 'foto', NOW()),
+(4, 'Vista traseira: posicionamento do Smart Hub V2 sobre o eixo para máxima tração', 'assets/img/spike_galeria_4.jpg', 'foto', NOW())
 ON DUPLICATE KEY UPDATE
   `titulo` = VALUES(`titulo`),
   `arquivo` = VALUES(`arquivo`);

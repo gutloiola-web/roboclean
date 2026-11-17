@@ -137,20 +137,26 @@ function buscarGaleria(?PDO $pdo): array
 {
     $galeriaPadrao = [
         [
-            'titulo'  => 'Robô Catador de Lixo construído com LEGO Education SPIKE',
+            'titulo'  => 'Protótipo RoboClean sobre a maleta oficial LEGO Education SPIKE Prime',
             'arquivo' => 'assets/img/spike_galeria_1.jpg',
             'tipo'    => 'foto',
             'data'    => date('Y-m-d H:i:s')
         ],
         [
-            'titulo'  => 'Controle de Xbox conectado via Bluetooth ao Hub LEGO SPIKE',
+            'titulo'  => 'Vista superior: chassi modular ciano, Smart Hub V2 e garra atuadora acoplada à lixeira',
             'arquivo' => 'assets/img/spike_galeria_2.jpg',
             'tipo'    => 'foto',
             'data'    => date('Y-m-d H:i:s')
         ],
         [
-            'titulo'  => 'Garra/Pá Coletora e Sensor de Distância em Testes Práticos',
+            'titulo'  => 'Detalhe lateral das conexões do Smart Hub, eixo de tração e sistema de pinça com engrenagens',
             'arquivo' => 'assets/img/spike_galeria_3.jpg',
+            'tipo'    => 'foto',
+            'data'    => date('Y-m-d H:i:s')
+        ],
+        [
+            'titulo'  => 'Vista traseira: posicionamento do Smart Hub V2 sobre o eixo para máxima tração',
+            'arquivo' => 'assets/img/spike_galeria_4.jpg',
             'tipo'    => 'foto',
             'data'    => date('Y-m-d H:i:s')
         ],

@@ -810,11 +810,16 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
 
             <div class="gallery-grid">
                 <?php foreach ($itensGaleria as $item): ?>
+                    <?php
+                    $arqGaleria = $item['arquivo'] ?? '';
+                    $verGaleria = (int) @filemtime(__DIR__ . '/' . $arqGaleria);
+                    $srcGaleria = $arqGaleria . ($verGaleria > 0 ? '?v=' . $verGaleria : '');
+                    ?>
                     <figure class="gallery-card">
                         <?php if (($item['tipo'] ?? 'foto') === 'video'): ?>
                             <div class="gallery-media-wrap">
                                 <video class="gallery-video" controls preload="metadata">
-                                    <source src="<?= e($item['arquivo']) ?>" type="video/mp4">
+                                    <source src="<?= e($srcGaleria) ?>" type="video/mp4">
                                     Seu navegador não suporta a reprodução de vídeo.
                                 </video>
                                 <span class="gallery-type-badge">Vídeo</span>
@@ -823,12 +828,12 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                             <button
                                 type="button"
                                 class="gallery-media-wrap gallery-zoom-trigger"
-                                data-src="<?= e($item['arquivo']) ?>"
+                                data-src="<?= e($srcGaleria) ?>"
                                 data-caption="<?= e($item['titulo']) ?>"
                                 aria-label="Ampliar imagem: <?= e($item['titulo']) ?>"
                             >
                                 <img
-                                    src="<?= e($item['arquivo']) ?>"
+                                    src="<?= e($srcGaleria) ?>"
                                     alt="<?= e($item['titulo']) ?>"
                                     class="gallery-img"
                                     loading="lazy"
