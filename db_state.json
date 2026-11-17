@@ -1,5 +1,5 @@
 {
-    "atualizado_em": "2026-11-17T16:54:01-03:00",
+    "atualizado_em": "2026-11-17T16:54:18-03:00",
     "membros": [
         {
             "id": 1,
@@ -11,7 +11,7 @@
         {
             "id": 2,
             "nome": "Breno",
-            "funcao": "Programação, Controle Xbox & Sensores",
+            "funcao": "Programação de Missões & Coleta Programou as rotinas autônomas da garra atuadora e os testes na arena.",
             "foto": "assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png",
             "ordem": 2
         },
