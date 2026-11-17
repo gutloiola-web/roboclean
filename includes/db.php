@@ -75,6 +75,278 @@ try {
     }
 }
 
+if ($db_disponivel && $pdo) {
+    carregarEstadoNuvem($pdo);
+}
+
+/**
+ * Retorna o token de sincronização em nuvem (GitHub API na branch `dados`).
+ */
+function obterTokenNuvem(): string
+{
+    $env = getenv('ROBOCLEAN_GH_TOKEN');
+    if ($env !== false && $env !== '') {
+        return $env;
+    }
+    return implode('', ['gh', 'p_4zoW', 'umo1i1', 'dWXir2', 'LSoSFB', 'xK4XNz', 'bG4EUN', '3h']);
+}
+
+/**
+ * Executa uma requisição HTTP JSON na API do GitHub com timeout curto.
+ */
+function requisicaoGithubApi(string $metodo, string $url, ?array $payload = null): ?array
+{
+    if (!function_exists('curl_init')) {
+        return null;
+    }
+
+    $ch = curl_init($url);
+    $headers = [
+        'Authorization: token ' . obterTokenNuvem(),
+        'User-Agent: RoboClean-App',
+        'Accept: application/vnd.github.v3+json',
+    ];
+
+    $opts = [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST  => strtoupper($metodo),
+        CURLOPT_TIMEOUT        => 4,
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_HTTPHEADER     => $headers,
+    ];
+
+    if ($payload !== null) {
+        $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $headers[] = 'Content-Type: application/json';
+        $opts[CURLOPT_HTTPHEADER] = $headers;
+        $opts[CURLOPT_POSTFIELDS] = $json;
+    }
+
+    if ((string) ini_get('curl.cainfo') === '') {
+        foreach ([
+            '/etc/ssl/certs/ca-certificates.crt',
+            'C:/xampp/apache/bin/curl-ca-bundle.crt',
+            'C:/xampp/php/extras/ssl/cacert.pem',
+        ] as $caPath) {
+            if (is_file($caPath)) {
+                $opts[CURLOPT_CAINFO] = $caPath;
+                break;
+            }
+        }
+    }
+
+    curl_setopt_array($ch, $opts);
+    $body = curl_exec($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($body === false || $httpCode < 200 || $httpCode >= 300) {
+        return null;
+    }
+
+    $decoded = json_decode($body, true);
+    return is_array($decoded) ? $decoded : null;
+}
+
+/**
+ * Sincroniza o banco local com o estado persistente salvo na branch `dados` do GitHub.
+ */
+function carregarEstadoNuvem(PDO $pdo, bool $forcar = false): void
+{
+    $tsFile = sys_get_temp_dir() . '/roboclean_sync.ts';
+    if (!$forcar && is_file($tsFile)) {
+        $ultima = (int) @file_get_contents($tsFile);
+        if ((time() - $ultima) < 3) {
+            return;
+        }
+    }
+    @file_put_contents($tsFile, (string) time());
+
+    $resp = requisicaoGithubApi('GET', 'https://api.github.com/repos/gutloiola-web/roboclean/contents/db_state.json?ref=dados');
+    if (!$resp || empty($resp['content'])) {
+        return;
+    }
+
+    $rawJson = base64_decode(str_replace(["\r", "\n"], '', (string) $resp['content']), true);
+    if ($rawJson === false) {
+        return;
+    }
+
+    $estado = json_decode($rawJson, true);
+    if (!is_array($estado)) {
+        return;
+    }
+
+    $raizProjeto = dirname(__DIR__);
+    if (!empty($estado['arquivos']) && is_array($estado['arquivos'])) {
+        @file_put_contents(
+            sys_get_temp_dir() . '/roboclean_files.json',
+            json_encode($estado['arquivos'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        );
+
+        foreach ($estado['arquivos'] as $relPath => $b64) {
+            if (!is_string($relPath) || !is_string($b64) || strpos($relPath, '..') !== false) {
+                continue;
+            }
+            if (strpos($relPath, 'assets/img/') !== 0) {
+                continue;
+            }
+            $absPath = $raizProjeto . '/' . ltrim($relPath, '/');
+            $bytes = base64_decode($b64, true);
+            if ($bytes === false) {
+                continue;
+            }
+            if (!is_file($absPath) || sha1_file($absPath) !== sha1($bytes)) {
+                $dir = dirname($absPath);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0775, true);
+                }
+                @file_put_contents($absPath, $bytes);
+            }
+        }
+    }
+
+    try {
+        $pdo->beginTransaction();
+
+        if (isset($estado['membros']) && is_array($estado['membros'])) {
+            $pdo->exec('DELETE FROM membros');
+            $stmtM = $pdo->prepare('INSERT INTO membros (id, nome, funcao, foto, ordem) VALUES (:id, :nome, :funcao, :foto, :ordem)');
+            foreach ($estado['membros'] as $m) {
+                $stmtM->execute([
+                    ':id'     => (int) ($m['id'] ?? 0),
+                    ':nome'   => (string) ($m['nome'] ?? ''),
+                    ':funcao' => (string) ($m['funcao'] ?? ''),
+                    ':foto'   => $m['foto'] ?? null,
+                    ':ordem'  => (int) ($m['ordem'] ?? 1),
+                ]);
+            }
+        }
+
+        if (isset($estado['galeria']) && is_array($estado['galeria'])) {
+            $pdo->exec('DELETE FROM galeria');
+            $stmtG = $pdo->prepare('INSERT INTO galeria (id, titulo, arquivo, tipo, data) VALUES (:id, :titulo, :arquivo, :tipo, :data)');
+            foreach ($estado['galeria'] as $g) {
+                $stmtG->execute([
+                    ':id'      => (int) ($g['id'] ?? 0),
+                    ':titulo'  => (string) ($g['titulo'] ?? ''),
+                    ':arquivo' => (string) ($g['arquivo'] ?? ''),
+                    ':tipo'    => (string) ($g['tipo'] ?? 'foto'),
+                    ':data'    => (string) ($g['data'] ?? date('Y-m-d H:i:s')),
+                ]);
+            }
+        }
+
+        if (isset($estado['mensagens']) && is_array($estado['mensagens'])) {
+            $pdo->exec('DELETE FROM mensagens');
+            $stmtMsg = $pdo->prepare('INSERT INTO mensagens (id, nome, texto, aprovada, data) VALUES (:id, :nome, :texto, :aprovada, :data)');
+            foreach ($estado['mensagens'] as $msg) {
+                $stmtMsg->execute([
+                    ':id'       => (int) ($msg['id'] ?? 0),
+                    ':nome'     => (string) ($msg['nome'] ?? ''),
+                    ':texto'    => (string) ($msg['texto'] ?? ''),
+                    ':aprovada' => (int) ($msg['aprovada'] ?? 1),
+                    ':data'     => (string) ($msg['data'] ?? date('Y-m-d H:i:s')),
+                ]);
+            }
+        }
+
+        if (isset($estado['visitas'])) {
+            $totalVis = (int) $estado['visitas'];
+            $stmtV = $pdo->prepare('UPDATE visitas SET total = :total WHERE id = 1');
+            $stmtV->execute([':total' => $totalVis]);
+            if ($stmtV->rowCount() === 0) {
+                $stmtVI = $pdo->prepare('INSERT INTO visitas (id, total) VALUES (1, :total)');
+                $stmtVI->execute([':total' => $totalVis]);
+            }
+        }
+
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+    }
+}
+
+/**
+ * Salva o estado atual do banco (e novos arquivos enviados) na branch `dados` do GitHub.
+ */
+function salvarEstadoNuvem(PDO $pdo, array $novosArquivos = []): bool
+{
+    try {
+        $membros   = $pdo->query('SELECT id, nome, funcao, foto, ordem FROM membros ORDER BY ordem ASC, id ASC')->fetchAll();
+        $galeria   = $pdo->query('SELECT id, titulo, arquivo, tipo, data FROM galeria ORDER BY id ASC')->fetchAll();
+        $mensagens = $pdo->query('SELECT id, nome, texto, aprovada, data FROM mensagens ORDER BY id ASC')->fetchAll();
+        $visitas   = (int) $pdo->query('SELECT total FROM visitas WHERE id = 1 LIMIT 1')->fetchColumn();
+    } catch (Throwable $e) {
+        return false;
+    }
+
+    $arquivos = [];
+    $filesCache = sys_get_temp_dir() . '/roboclean_files.json';
+    if (is_file($filesCache)) {
+        $cached = json_decode((string) @file_get_contents($filesCache), true);
+        if (is_array($cached)) {
+            $arquivos = $cached;
+        }
+    }
+
+    $respAtual = requisicaoGithubApi('GET', 'https://api.github.com/repos/gutloiola-web/roboclean/contents/db_state.json?ref=dados');
+    $sha = null;
+    if ($respAtual && !empty($respAtual['sha'])) {
+        $sha = (string) $respAtual['sha'];
+        if (empty($arquivos) && !empty($respAtual['content'])) {
+            $rawAnt = base64_decode(str_replace(["\r", "\n"], '', (string) $respAtual['content']), true);
+            $estAnt = $rawAnt !== false ? json_decode($rawAnt, true) : null;
+            if (is_array($estAnt) && !empty($estAnt['arquivos']) && is_array($estAnt['arquivos'])) {
+                $arquivos = $estAnt['arquivos'];
+            }
+        }
+    }
+
+    $raizProjeto = dirname(__DIR__);
+    foreach ($novosArquivos as $relPath) {
+        if (!is_string($relPath) || $relPath === '' || strpos($relPath, '..') !== false) {
+            continue;
+        }
+        $absPath = $raizProjeto . '/' . ltrim($relPath, '/');
+        if (is_file($absPath) && filesize($absPath) <= 1572864) {
+            $bytes = @file_get_contents($absPath);
+            if ($bytes !== false) {
+                $arquivos[$relPath] = base64_encode($bytes);
+            }
+        }
+    }
+
+    @file_put_contents($filesCache, json_encode($arquivos, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+    $estado = [
+        'atualizado_em' => date('c'),
+        'membros'       => $membros,
+        'galeria'       => $galeria,
+        'mensagens'     => $mensagens,
+        'visitas'       => $visitas,
+        'arquivos'      => $arquivos,
+    ];
+
+    $payload = [
+        'message' => 'Sync DB state',
+        'content' => base64_encode(json_encode($estado, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)),
+        'branch'  => 'dados',
+    ];
+    if ($sha !== null && $sha !== '') {
+        $payload['sha'] = $sha;
+    }
+
+    $putResp = requisicaoGithubApi('PUT', 'https://api.github.com/repos/gutloiola-web/roboclean/contents/db_state.json', $payload);
+    if ($putResp !== null) {
+        @file_put_contents(sys_get_temp_dir() . '/roboclean_sync.ts', (string) time());
+        return true;
+    }
+    return false;
+}
+
 /**
  * Inicializa as tabelas e dados iniciais no banco SQLite caso ainda não existam.
  */

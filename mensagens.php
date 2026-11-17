@@ -81,6 +81,8 @@ try {
         ':data'  => date('Y-m-d H:i:s'),
     ]);
 
+    salvarEstadoNuvem($pdo);
+
     // Atualiza marcadores de proteção na sessão
     $_SESSION['ultimo_envio_mural'] = $agora;
     $_SESSION['ultimo_texto_mural'] = $texto;

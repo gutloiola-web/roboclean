@@ -161,6 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
         $alertaTipo  = 'erro';
         $alertaTexto = 'Token CSRF inválido. Por favor, tente novamente.';
     } else {
+        carregarEstadoNuvem($pdo, true);
+        $arquivosParaNuvem = [];
         try {
             // ----------------------------------------------------------------
             // 1. AÇÕES DE EQUIPE (MEMBROS)
@@ -181,6 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                             throw new RuntimeException($up['erro']);
                         }
                         $foto = $up['caminho'];
+                        $arquivosParaNuvem[] = $foto;
                     }
 
                     $stmt = $pdo->prepare('INSERT INTO membros (nome, funcao, foto, ordem) VALUES (:nome, :funcao, :foto, :ordem)');
@@ -209,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                         if (!$up['ok']) {
                             throw new RuntimeException($up['erro']);
                         }
+                        $arquivosParaNuvem[] = $up['caminho'];
                         $stmt = $pdo->prepare('UPDATE membros SET nome = :nome, funcao = :funcao, foto = :foto, ordem = :ordem WHERE id = :id');
                         $stmt->execute([
                             ':nome'   => mb_substr($nome, 0, 100, 'UTF-8'),
@@ -256,6 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                     $destino = dirname(__DIR__) . '/assets/img/robo.jpg';
                     if (@copy($origem, $destino)) {
                         @unlink($origem);
+                        $arquivosParaNuvem[] = 'assets/img/robo.jpg';
                         $alertaTipo  = 'sucesso';
                         $alertaTexto = 'Foto principal do robô (Início) atualizada com sucesso!';
                     } else {
@@ -271,6 +276,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                     $up = processarUploadSeguro($_FILES['arquivo'], true);
                     if (!$up['ok']) {
                         throw new RuntimeException($up['erro']);
+                    }
+                    if ($up['tipo'] === 'foto') {
+                        $arquivosParaNuvem[] = $up['caminho'];
                     }
 
                     $stmt = $pdo->prepare('INSERT INTO galeria (titulo, arquivo, tipo, data) VALUES (:titulo, :arquivo, :tipo, :data)');
@@ -292,6 +300,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                         $up = processarUploadSeguro($_FILES['arquivo'], true);
                         if (!$up['ok']) {
                             throw new RuntimeException($up['erro']);
+                        }
+                        if ($up['tipo'] === 'foto') {
+                            $arquivosParaNuvem[] = $up['caminho'];
                         }
                         $stmt = $pdo->prepare('UPDATE galeria SET titulo = :titulo, arquivo = :arquivo, tipo = :tipo WHERE id = :id');
                         $stmt->execute([
@@ -349,6 +360,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db_disponivel && $pdo) {
                     $alertaTipo  = 'sucesso';
                     $alertaTexto = 'Mensagem excluída permanentemente.';
                 }
+            }
+
+            if ($alertaTipo === 'sucesso') {
+                salvarEstadoNuvem($pdo, $arquivosParaNuvem);
             }
         } catch (RuntimeException $re) {
             $alertaTipo  = 'erro';
