@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `galeria` (
 
 -- Itens iniciais da galeria com fotos reais do robô LEGO SPIKE (editáveis pelo /admin)
 INSERT INTO `galeria` (`id`, `titulo`, `arquivo`, `tipo`, `data`) VALUES
-(1, 'Protótipo RoboClean sobre a maleta oficial LEGO Education SPIKE Prime', 'assets/img/spike_galeria_1.jpg', 'foto', NOW()),
+(1, 'Protótipo RoboClean construído com LEGO Education SPIKE Prime e garra coletora frontal', 'assets/img/spike_galeria_1.jpg', 'foto', NOW()),
 (2, 'Vista superior: chassi modular ciano, Smart Hub V2 e garra atuadora acoplada à lixeira', 'assets/img/spike_galeria_2.jpg', 'foto', NOW()),
 (3, 'Detalhe lateral das conexões do Smart Hub, eixo de tração e sistema de pinça com engrenagens', 'assets/img/spike_galeria_3.jpg', 'foto', NOW()),
 (4, 'Vista traseira: posicionamento do Smart Hub V2 sobre o eixo para máxima tração', 'assets/img/spike_galeria_4.jpg', 'foto', NOW())

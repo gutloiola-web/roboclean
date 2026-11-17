@@ -137,7 +137,7 @@ function buscarGaleria(?PDO $pdo): array
 {
     $galeriaPadrao = [
         [
-            'titulo'  => 'Protótipo RoboClean sobre a maleta oficial LEGO Education SPIKE Prime',
+            'titulo'  => 'Protótipo RoboClean construído com LEGO Education SPIKE Prime e garra coletora frontal',
             'arquivo' => 'assets/img/spike_galeria_1.jpg',
             'tipo'    => 'foto',
             'data'    => date('Y-m-d H:i:s')
