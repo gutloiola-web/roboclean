@@ -1,5 +1,5 @@
 {
-    "atualizado_em": "2026-11-17T17:30:35-03:00",
+    "atualizado_em": "2026-11-17T17:43:58-03:00",
     "membros": [
         {
             "id": 1,
@@ -79,7 +79,7 @@
             "id": 2,
             "nome": "Coordenação Pedagógica",
             "texto": "Parabéns à equipe pela iniciativa de unir a robótica educacional LEGO SPIKE com a preservação do meio ambiente!",
-            "aprovada": 1,
+            "aprovada": 0,
             "data": "2026-11-17 16:28:20"
         },
         {
