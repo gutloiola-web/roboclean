@@ -1,10 +1,10 @@
 {
-    "atualizado_em": "2026-11-17T16:53:26-03:00",
+    "atualizado_em": "2026-11-17T16:54:01-03:00",
     "membros": [
         {
             "id": 1,
             "nome": "Artur",
-            "funcao": "Construção LEGO SPIKE & Engenharia do Robô",
+            "funcao": "Programação & Controle de Motores Desenvolveu a lógica de movimentação e precisão do Hub LEGO SPIKE Prime.",
             "foto": "assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png",
             "ordem": 1
         },
