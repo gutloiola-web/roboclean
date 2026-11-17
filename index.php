@@ -71,6 +71,107 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
     </section>
 
     <!-- ======================================================================
+         NOVA SEÇÃO: INSPEÇÃO INTERATIVA DE HARDWARE (TEAM VALENTES)
+         ====================================================================== -->
+    <section class="hardware-xray-section" id="inspecao-hardware">
+        <div class="container">
+            <div class="section-header">
+                <p class="hero-eyebrow" style="margin-bottom: 8px;">ENGENHARIA &middot; TEAM VALENTES</p>
+                <h2 class="section-title">Inspeção Interativa de Hardware</h2>
+                <p class="section-subtitle">Explore a anatomia mecânica do RoboClean e a integração dos módulos LEGO SPIKE Prime.</p>
+            </div>
+
+            <div class="hardware-xray-grid">
+                <!-- Coluna Esquerda: Visor do Robô com Hotspots Interativos -->
+                <div class="hardware-xray-viewer">
+                    <div class="hardware-xray-image-wrap">
+                        <img
+                            src="assets/img/robo.png?v=<?= (int) @filemtime(__DIR__ . '/assets/img/robo.png') ?>"
+                            alt="Robô LEGO SPIKE Prime da equipe Team Valentes"
+                            class="hardware-xray-img"
+                            loading="lazy"
+                            onerror="this.onerror=null; this.src='assets/img/robo.jpg';"
+                        >
+
+                        <!-- Pin 01: Smart Hub traseiro -->
+                        <button
+                            type="button"
+                            class="hardware-xray-pin is-active"
+                            data-pin="01"
+                            style="top: 32%; left: 39%;"
+                            aria-label="Inspecionar 01: Smart Hub V2"
+                            aria-pressed="true"
+                        >
+                            01
+                        </button>
+
+                        <!-- Pin 02: Garra / motor médio frontal -->
+                        <button
+                            type="button"
+                            class="hardware-xray-pin"
+                            data-pin="02"
+                            style="top: 56%; left: 63%;"
+                            aria-label="Inspecionar 02: Garra Atuadora"
+                            aria-pressed="false"
+                        >
+                            02
+                        </button>
+
+                        <!-- Pin 03: Contêiner / lixeira verde -->
+                        <button
+                            type="button"
+                            class="hardware-xray-pin"
+                            data-pin="03"
+                            style="top: 80%; left: 66%;"
+                            aria-label="Inspecionar 03: Contêiner de Carga"
+                            aria-pressed="false"
+                        >
+                            03
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Painel Dinâmico de Telemetria -->
+                <div class="hardware-xray-telemetry">
+                    <div class="hardware-xray-card hardware-xray-fade" id="hardwareXrayCard">
+                        <div>
+                            <div class="hardware-xray-badge" id="hardwareXrayBadge">
+                                Sub-sistema 01 &middot; Traseira
+                            </div>
+                            <h3 class="hardware-xray-title" id="hardwareXrayTitle">
+                                01: SMART HUB V2
+                            </h3>
+                            <p class="hardware-xray-desc" id="hardwareXrayDesc">
+                                Cérebro do robô LEGO SPIKE Prime com giroscópio interno e bateria. Posicionado na traseira para concentrar o peso sobre o eixo das rodas ciano e maximizar a tração na arena.
+                            </p>
+                        </div>
+
+                        <div class="hardware-xray-meta-grid">
+                            <div class="hardware-xray-meta-item">
+                                <span class="hardware-xray-meta-label">TRAÇÃO</span>
+                                <span class="hardware-xray-meta-val" id="hardwareXrayMeta1">95%</span>
+                            </div>
+                            <div class="hardware-xray-meta-item">
+                                <span class="hardware-xray-meta-label">PESO</span>
+                                <span class="hardware-xray-meta-val" id="hardwareXrayMeta2">70% TRASEIRO</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="hardware-xray-instruction">
+                        <svg class="icon-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Clique nos pontos numerados para inspecionar cada subsistema</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
          2. O PROJETO (ABAS: PROBLEMA, OBJETIVOS E METODOLOGIA + SANFONAS)
          ====================================================================== -->
     <section class="site-section section-alt" id="projeto">

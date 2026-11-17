@@ -14,6 +14,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     iniciarMenuMobile();
     iniciarScrollSpyETopo();
+    iniciarInspecaoHardware();
     iniciarAbasProjeto();
     iniciarSanfonas();
     iniciarDiagramaXbox();
@@ -106,7 +107,94 @@ function iniciarScrollSpyETopo() {
 }
 
 /* ----------------------------------------------------------------------------
-   3. ABAS DA SEÇÃO "O PROJETO" (PROBLEMA, OBJETIVOS, METODOLOGIA)
+   3. INSPEÇÃO INTERATIVA DE HARDWARE (TEAM VALENTES)
+   ---------------------------------------------------------------------------- */
+function iniciarInspecaoHardware() {
+    var dadosHotspots = {
+        '01': {
+            badge: 'Sub-sistema 01 &middot; Traseira',
+            title: '01: SMART HUB V2',
+            desc: 'Cérebro do robô LEGO SPIKE Prime com giroscópio interno e bateria. Posicionado na traseira para concentrar o peso sobre o eixo das rodas ciano e maximizar a tração na arena.',
+            meta1Label: 'TRAÇÃO',
+            meta1Val: '95%',
+            meta2Label: 'DISTRIBUIÇÃO',
+            meta2Val: '70% TRASEIRO'
+        },
+        '02': {
+            badge: 'Sub-sistema 02 &middot; Frontal',
+            title: '02: GARRA ATUADORA',
+            desc: 'Mecanismo frontal acionado por motor médio com engrenagens pretas e buchas amarelas de travamento, projetado para abraçar com precisão as alças laterais do contêiner.',
+            meta1Label: 'SISTEMA',
+            meta1Val: 'PINÇA',
+            meta2Label: 'EFICIÊNCIA',
+            meta2Val: 'TORQUE: 85%'
+        },
+        '03': {
+            badge: 'Sub-sistema 03 &middot; Carga',
+            title: '03: CONTÊINER DE CARGA',
+            desc: 'Lixeira verde de resíduos acoplada às mandíbulas frontais, mantendo o equilíbrio do chassi modular e permitindo transporte estável até a zona de descarte.',
+            meta1Label: 'PLATAFORMA',
+            meta1Val: 'SPIKE',
+            meta2Label: 'STATUS',
+            meta2Val: 'TRAVADO'
+        }
+    };
+
+    var pins = document.querySelectorAll('.hardware-xray-pin');
+    var badgeEl = document.getElementById('hardwareXrayBadge');
+    var titleEl = document.getElementById('hardwareXrayTitle');
+    var descEl = document.getElementById('hardwareXrayDesc');
+    var meta1ValEl = document.getElementById('hardwareXrayMeta1');
+    var meta2ValEl = document.getElementById('hardwareXrayMeta2');
+    var cardEl = document.getElementById('hardwareXrayCard');
+
+    if (!pins.length || !cardEl) return;
+
+    function ativarPin(pin) {
+        var num = pin.getAttribute('data-pin');
+        var info = dadosHotspots[num];
+        if (!info) return;
+
+        pins.forEach(function (p) {
+            p.classList.remove('is-active');
+            p.setAttribute('aria-pressed', 'false');
+        });
+
+        pin.classList.add('is-active');
+        pin.setAttribute('aria-pressed', 'true');
+
+        // Animação suave de fade-in
+        cardEl.classList.remove('hardware-xray-fade');
+        void cardEl.offsetWidth; // Trigger reflow para reiniciar animação
+        cardEl.classList.add('hardware-xray-fade');
+
+        if (badgeEl) badgeEl.innerHTML = info.badge;
+        if (titleEl) titleEl.textContent = info.title;
+        if (descEl) descEl.textContent = info.desc;
+        if (meta1ValEl) meta1ValEl.textContent = info.meta1Val;
+        if (meta2ValEl) meta2ValEl.textContent = info.meta2Val;
+    }
+
+    pins.forEach(function (pin) {
+        pin.addEventListener('click', function () {
+            ativarPin(pin);
+        });
+
+        pin.addEventListener('mouseenter', function () {
+            ativarPin(pin);
+        });
+
+        pin.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                ativarPin(pin);
+            }
+        });
+    });
+}
+
+/* ----------------------------------------------------------------------------
+   4. ABAS DA SEÇÃO "O PROJETO" (PROBLEMA, OBJETIVOS, METODOLOGIA)
    ---------------------------------------------------------------------------- */
 function iniciarAbasProjeto() {
     var botoesAba = document.querySelectorAll('.tab-btn');

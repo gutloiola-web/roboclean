@@ -9,4 +9,3 @@ if ($status) {
 } else {
     Write-Output "Nenhuma alteracao pendente para envio."
 }
-

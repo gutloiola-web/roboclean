@@ -1978,6 +1978,268 @@ textarea:focus {
 }
 
 /* ============================================================================
+   SEÇÃO: INSPEÇÃO INTERATIVA DE HARDWARE (TEAM VALENTES)
+   Prefixos dedicados: .hardware-xray-*
+   ============================================================================ */
+.hardware-xray-section {
+    padding: 72px 0;
+    background-color: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.hardware-xray-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+}
+
+/* Coluna Esquerda: Visor do Robô */
+.hardware-xray-viewer {
+    position: relative;
+    width: 100%;
+    background-color: var(--bg-gray-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hardware-xray-image-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+}
+
+.hardware-xray-img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    display: block;
+}
+
+/* Hotspots / Pinos Pulsantes */
+.hardware-xray-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-green);
+    color: #FFFFFF;
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2.5px solid #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(21, 128, 61, 0.45);
+    z-index: 10;
+    padding: 0;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hardware-xray-pin::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid var(--color-green);
+    opacity: 0.8;
+    animation: hardware-pin-pulse 2s infinite ease-out;
+    pointer-events: none;
+}
+
+.hardware-xray-pin:hover,
+.hardware-xray-pin.is-active {
+    transform: translate(-50%, -50%) scale(1.15);
+    background-color: var(--color-green-hover);
+    box-shadow: 0 4px 16px rgba(21, 128, 61, 0.6);
+}
+
+.hardware-xray-pin.is-active {
+    border-color: #FEF08A; /* Amarelo LEGO sutil no anel do pino ativo */
+}
+
+@keyframes hardware-pin-pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.9;
+    }
+    70% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* Coluna Direita: Painel Dinâmico de Telemetria */
+.hardware-xray-telemetry {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hardware-xray-card {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--color-green);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05);
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hardware-xray-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background-color: var(--color-green-soft);
+    color: var(--color-green);
+    border: 1px solid var(--color-green-border);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 14px;
+}
+
+.hardware-xray-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+.hardware-xray-desc {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.hardware-xray-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.hardware-xray-meta-item {
+    background-color: var(--bg-gray-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hardware-xray-meta-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.hardware-xray-meta-val {
+    font-family: var(--font-heading);
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: var(--color-green);
+}
+
+/* Transição suave de fade-in no painel */
+.hardware-xray-fade {
+    animation: hardware-fade-in 0.3s ease-out forwards;
+}
+
+@keyframes hardware-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hardware-xray-instruction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    padding: 0 4px;
+}
+
+.hardware-xray-instruction svg {
+    color: var(--color-green);
+    flex-shrink: 0;
+}
+
+/* Responsividade específica da Inspeção Interativa */
+@media (max-width: 992px) {
+    .hardware-xray-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .hardware-xray-card {
+        min-height: auto;
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hardware-xray-section {
+        padding: 48px 0;
+    }
+
+    .hardware-xray-viewer {
+        padding: 16px;
+    }
+
+    .hardware-xray-pin {
+        width: 32px;
+        height: 32px;
+        font-size: 0.76rem;
+    }
+
+    .hardware-xray-meta-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================================
    RESPONSIVIDADE COMPLETA (TELÃO, DESKTOP, TABLET E CELULAR)
    ============================================================================ */
 
