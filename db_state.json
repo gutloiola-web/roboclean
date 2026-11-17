@@ -1,0 +1,88 @@
+{
+    "atualizado_em": "2026-11-17T16:30:57-03:00",
+    "membros": [
+        {
+            "id": 1,
+            "nome": "Artur",
+            "funcao": "Construção LEGO SPIKE & Engenharia do Robô",
+            "foto": "assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png",
+            "ordem": 1
+        },
+        {
+            "id": 2,
+            "nome": "Breno",
+            "funcao": "Programação, Controle Xbox & Sensores",
+            "foto": "assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png",
+            "ordem": 2
+        },
+        {
+            "id": 3,
+            "nome": "Gustavo",
+            "funcao": "Pesquisa Ambiental & Documentação",
+            "foto": "assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png",
+            "ordem": 3
+        },
+        {
+            "id": 4,
+            "nome": "Paulo",
+            "funcao": "Testes Práticos & Apresentação Síntese",
+            "foto": "assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png",
+            "ordem": 4
+        },
+        {
+            "id": 5,
+            "nome": "Kaicky",
+            "funcao": "Montagem e pesquisa",
+            "foto": "assets/img/uploads/rc_043482f15386487a21618afd.png",
+            "ordem": 5
+        }
+    ],
+    "galeria": [
+        {
+            "id": 1,
+            "titulo": "Protótipo RoboClean construído com LEGO Education SPIKE Prime e garra coletora frontal",
+            "arquivo": "assets/img/spike_galeria_1.jpg",
+            "tipo": "foto",
+            "data": "2026-11-17 16:28:20"
+        },
+        {
+            "id": 2,
+            "titulo": "Vista superior: chassi modular ciano, Smart Hub V2 e garra atuadora acoplada à lixeira",
+            "arquivo": "assets/img/spike_galeria_2.jpg",
+            "tipo": "foto",
+            "data": "2026-11-17 16:28:20"
+        },
+        {
+            "id": 3,
+            "titulo": "Detalhe lateral das conexões do Smart Hub, eixo de tração e sistema de pinça com engrenagens",
+            "arquivo": "assets/img/spike_galeria_3.jpg",
+            "tipo": "foto",
+            "data": "2026-11-17 16:28:20"
+        },
+        {
+            "id": 4,
+            "titulo": "Vista traseira: posicionamento do Smart Hub V2 sobre o eixo para máxima tração",
+            "arquivo": "assets/img/spike_galeria_4.jpg",
+            "tipo": "foto",
+            "data": "2026-11-17 16:28:20"
+        }
+    ],
+    "mensagens": [
+        {
+            "id": 1,
+            "nome": "Equipe RoboClean",
+            "texto": "Bem-vindos à nossa apresentação na feira Síntese! Deixe seu comentário ou pergunta sobre o nosso robô catador de lixo.",
+            "aprovada": 1,
+            "data": "2026-11-17 16:28:20"
+        },
+        {
+            "id": 2,
+            "nome": "Coordenação Pedagógica",
+            "texto": "Parabéns à equipe pela iniciativa de unir a robótica educacional LEGO SPIKE com a preservação do meio ambiente!",
+            "aprovada": 1,
+            "data": "2026-11-17 16:28:20"
+        }
+    ],
+    "visitas": 1,
+    "arquivos": []
+}
