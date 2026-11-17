@@ -1,5 +1,5 @@
 {
-    "atualizado_em": "2026-11-17T16:52:53-03:00",
+    "atualizado_em": "2026-11-17T16:53:09-03:00",
     "membros": [
         {
             "id": 1,
@@ -25,7 +25,7 @@
         {
             "id": 4,
             "nome": "Paulo",
-            "funcao": "Testes Práticos & Apresentação Síntese",
+            "funcao": "Construção LEGO SPIKE & Engenharia do Robô Liderou a montagem física do chassi, da tração e da garra frontal do robô.",
             "foto": "assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png",
             "ordem": 4
         },
