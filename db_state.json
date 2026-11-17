@@ -1,5 +1,5 @@
 {
-    "atualizado_em": "2026-11-17T16:30:57-03:00",
+    "atualizado_em": "2026-11-17T16:52:53-03:00",
     "membros": [
         {
             "id": 1,
@@ -18,7 +18,7 @@
         {
             "id": 3,
             "nome": "Gustavo",
-            "funcao": "Pesquisa Ambiental & Documentação",
+            "funcao": "Desenvolvimento Web & UI/UX Criou, programou e publicou toda a plataforma digital e a interface interativa do RoboClean.",
             "foto": "assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png",
             "ordem": 3
         },
