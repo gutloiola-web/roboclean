@@ -390,11 +390,11 @@ function inicializarBancoSqlite(PDO $pdo): void
     if ((int) $pdo->query('SELECT COUNT(*) FROM membros')->fetchColumn() === 0) {
         $stmtM = $pdo->prepare('INSERT INTO membros (nome, funcao, foto, ordem) VALUES (:nome, :funcao, :foto, :ordem)');
         $iniciaisMembros = [
-            ['Artur', 'Construção LEGO SPIKE & Engenharia do Robô', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1],
-            ['Breno', 'Programação, Controle Xbox & Sensores', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2],
-            ['Gustavo', 'Pesquisa Ambiental & Documentação', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3],
-            ['Paulo', 'Testes Práticos & Apresentação Síntese', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4],
-            ['Kaicky', 'Montagem e pesquisa', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5],
+            ['Artur', 'Programação & Controle de Motores — Desenvolveu a lógica de movimentação e precisão do Hub LEGO SPIKE Prime.', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1],
+            ['Breno', 'Programação de Missões & Coleta — Programou as rotinas autônomas da garra atuadora e os testes na arena.', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2],
+            ['Gustavo', 'Desenvolvimento Web & UI/UX — Criou, programou e publicou toda a plataforma digital e a interface interativa do RoboClean.', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3],
+            ['Paulo', 'Construção LEGO SPIKE & Engenharia do Robô — Liderou a montagem física do chassi, da tração e da garra frontal do robô.', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4],
+            ['Kaicky', 'Apoio na Montagem & Apresentação — Ajudou na montagem de algumas partes do robô e vai participar da apresentação do site.', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5],
         ];
         foreach ($iniciaisMembros as $m) {
             $stmtM->execute([':nome' => $m[0], ':funcao' => $m[1], ':foto' => $m[2], ':ordem' => $m[3]]);
@@ -477,35 +477,25 @@ function obterContadorVisitas(?PDO $pdo): ?int
  */
 function buscarMembros(?PDO $pdo): array
 {
+    $membrosPadrao = [
+        ['nome' => 'Artur', 'funcao' => 'Programação & Controle de Motores — Desenvolveu a lógica de movimentação e precisão do Hub LEGO SPIKE Prime.', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
+        ['nome' => 'Breno', 'funcao' => 'Programação de Missões & Coleta — Programou as rotinas autônomas da garra atuadora e os testes na arena.', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
+        ['nome' => 'Gustavo', 'funcao' => 'Desenvolvimento Web & UI/UX — Criou, programou e publicou toda a plataforma digital e a interface interativa do RoboClean.', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
+        ['nome' => 'Paulo', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô — Liderou a montagem física do chassi, da tração e da garra frontal do robô.', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
+        ['nome' => 'Kaicky', 'funcao' => 'Apoio na Montagem & Apresentação — Ajudou na montagem de algumas partes do robô e vai participar da apresentação do site.', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
+    ];
+
     if (!$pdo) {
-        return [
-            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
-            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
-            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
-            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
-            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
-        ];
+        return $membrosPadrao;
     }
 
     try {
         $stmt = $pdo->prepare('SELECT id, nome, funcao, foto, ordem FROM membros ORDER BY ordem ASC, id ASC');
         $stmt->execute();
         $res = $stmt->fetchAll();
-        return !empty($res) ? $res : [
-            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
-            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
-            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
-            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
-            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
-        ];
+        return !empty($res) ? $res : $membrosPadrao;
     } catch (Throwable $e) {
-        return [
-            ['nome' => 'Artur', 'funcao' => 'Construção LEGO SPIKE & Engenharia do Robô', 'foto' => 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png'],
-            ['nome' => 'Breno', 'funcao' => 'Programação, Controle Xbox & Sensores', 'foto' => 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png'],
-            ['nome' => 'Gustavo', 'funcao' => 'Pesquisa Ambiental & Documentação', 'foto' => 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png'],
-            ['nome' => 'Paulo', 'funcao' => 'Testes Práticos & Apresentação Síntese', 'foto' => 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png'],
-            ['nome' => 'Kaicky', 'funcao' => 'Montagem e pesquisa', 'foto' => 'assets/img/uploads/rc_043482f15386487a21618afd.png'],
-        ];
+        return $membrosPadrao;
     }
 }
 

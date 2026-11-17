@@ -7,10 +7,11 @@
 require_once __DIR__ . '/db.php';
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <meta name="description" content="RoboClean - Tecnologia a serviço do meio ambiente. Um robô catador de lixo feito com LEGO SPIKE e controlado por um controle de Xbox.">
     <title><?= e(SITE_NOME) ?> — <?= e(SITE_SLOGAN) ?> | <?= e(EVENTO_NOME) ?> <?= e(ANO_PROJETO) ?></title>
 

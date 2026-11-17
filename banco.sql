@@ -19,18 +19,18 @@ USE `roboclean_db`;
 CREATE TABLE IF NOT EXISTS `membros` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nome` VARCHAR(100) NOT NULL,
-  `funcao` VARCHAR(150) NOT NULL,
+  `funcao` TEXT NOT NULL,
   `foto` VARCHAR(255) DEFAULT NULL,
   `ordem` INT NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dados iniciais da equipe (Artur, Breno, Gustavo, Paulo e Kaicky)
 INSERT INTO `membros` (`id`, `nome`, `funcao`, `foto`, `ordem`) VALUES
-(1, 'Artur', 'Construção LEGO SPIKE & Engenharia do Robô', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1),
-(2, 'Breno', 'Programação, Controle Xbox & Sensores', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2),
-(3, 'Gustavo', 'Pesquisa Ambiental & Documentação', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3),
-(4, 'Paulo', 'Testes Práticos & Apresentação Síntese', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4),
-(5, 'Kaicky', 'Montagem e pesquisa', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5)
+(1, 'Artur', 'Programação & Controle de Motores — Desenvolveu a lógica de movimentação e precisão do Hub LEGO SPIKE Prime.', 'assets/img/uploads/rc_a97121af9b8c47b5f62c82ca.png', 1),
+(2, 'Breno', 'Programação de Missões & Coleta — Programou as rotinas autônomas da garra atuadora e os testes na arena.', 'assets/img/uploads/rc_2a9848b6228365cbd34c9aa2.png', 2),
+(3, 'Gustavo', 'Desenvolvimento Web & UI/UX — Criou, programou e publicou toda a plataforma digital e a interface interativa do RoboClean.', 'assets/img/uploads/rc_01dd98fbbd0824e78f7f371a.png', 3),
+(4, 'Paulo', 'Construção LEGO SPIKE & Engenharia do Robô — Liderou a montagem física do chassi, da tração e da garra frontal do robô.', 'assets/img/uploads/rc_60ea8b2d9a478715e2463ce4.png', 4),
+(5, 'Kaicky', 'Apoio na Montagem & Apresentação — Ajudou na montagem de algumas partes do robô e vai participar da apresentação do site.', 'assets/img/uploads/rc_043482f15386487a21618afd.png', 5)
 ON DUPLICATE KEY UPDATE
   `nome` = VALUES(`nome`),
   `funcao` = VALUES(`funcao`),
@@ -67,7 +67,7 @@ ON DUPLICATE KEY UPDATE
 CREATE TABLE IF NOT EXISTS `mensagens` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nome` VARCHAR(80) NOT NULL,
-  `texto` VARCHAR(500) NOT NULL,
+  `texto` VARCHAR(100000) NOT NULL,
   `aprovada` TINYINT(1) NOT NULL DEFAULT 0,
   `data` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
