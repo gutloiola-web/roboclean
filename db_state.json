@@ -1,5 +1,5 @@
 {
-    "atualizado_em": "2026-11-17T16:53:09-03:00",
+    "atualizado_em": "2026-11-17T16:53:26-03:00",
     "membros": [
         {
             "id": 1,
@@ -32,7 +32,7 @@
         {
             "id": 5,
             "nome": "Kaicky",
-            "funcao": "Montagem e pesquisa",
+            "funcao": "Apoio na Montagem & Apresentação Ajudou na montagem de algumas partes do robô e vai participar da apresentação do site.",
             "foto": "assets/img/uploads/rc_043482f15386487a21618afd.png",
             "ordem": 5
         }
