@@ -867,7 +867,7 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                 <div class="mural-form-card">
                     <h3 class="mural-form-title">Deixe sua mensagem</h3>
                     <p class="mural-form-note">
-                        As mensagens enviadas passam por aprovação no painel administrativo antes de aparecerem no mural.
+                        Deixe seu comentário abaixo! Sua mensagem aparecerá imediatamente no mural do projeto.
                     </p>
 
                     <?php if ($feedbackMural): ?>
@@ -916,9 +916,9 @@ $versaoFotoRobo  = $temFotoRealRobo ? (int) @filemtime($caminhoFotoRobo) : 1;
                     </form>
                 </div>
 
-                <!-- Coluna 2: Mensagens Aprovadas -->
+                <!-- Coluna 2: Mensagens do Mural -->
                 <div class="mural-messages-col">
-                    <h3 class="mural-list-title">Recados Aprovados (<?= count($mensagensAprovadas) ?>)</h3>
+                    <h3 class="mural-list-title">Recados do Mural (<?= count($mensagensAprovadas) ?>)</h3>
 
                     <?php if (empty($mensagensAprovadas)): ?>
                         <div class="mural-empty-box">

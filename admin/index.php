@@ -437,7 +437,7 @@ foreach ($listaMensagens as $m) {
                 <strong><?= count($listaGaleria) ?></strong>
             </div>
             <div class="admin-stat-box">
-                <span>Mensagens Pendentes</span>
+                <span>Mensagens Ocultas</span>
                 <strong><?= $pendentesCount ?></strong>
             </div>
             <div class="admin-stat-box">
@@ -451,8 +451,8 @@ foreach ($listaMensagens as $m) {
              ================================================================== -->
         <section class="admin-card-section" id="admin-mensagens">
             <div class="admin-section-header">
-                <h2>Mural de Mensagens (Aprovar ou Excluir)</h2>
-                <p>Apenas mensagens marcadas como <strong>Aprovadas</strong> aparecem na página pública do evento Síntese.</p>
+                <h2>Mural de Mensagens (Ocultar ou Excluir)</h2>
+                <p>As mensagens enviadas aparecem automaticamente no site. Use esta lista para <strong>Ocultar</strong> ou <strong>Excluir</strong> comentários indesejados.</p>
             </div>
 
             <?php if (empty($listaMensagens)): ?>
@@ -475,9 +475,9 @@ foreach ($listaMensagens as $m) {
                                 <tr>
                                     <td>
                                         <?php if ($aprovada): ?>
-                                            <span class="badge-status badge-approved">Aprovada</span>
+                                            <span class="badge-status badge-approved">Visível</span>
                                         <?php else: ?>
-                                            <span class="badge-status badge-pending">Pendente</span>
+                                            <span class="badge-status badge-pending">Oculta</span>
                                         <?php endif; ?>
                                     </td>
                                     <td><strong><?= e($msg['nome']) ?></strong></td>
@@ -489,7 +489,7 @@ foreach ($listaMensagens as $m) {
                                                 <input type="hidden" name="csrf_token" value="<?= e(gerarCsrfToken()) ?>">
                                                 <input type="hidden" name="acao" value="aprovar_mensagem">
                                                 <input type="hidden" name="id" value="<?= (int) $msg['id'] ?>">
-                                                <button type="submit" class="btn btn-primary btn-xs">Aprovar</button>
+                                                <button type="submit" class="btn btn-primary btn-xs">Exibir</button>
                                             </form>
                                         <?php else: ?>
                                             <form action="index.php" method="POST" class="inline-form">

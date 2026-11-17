@@ -70,10 +70,10 @@ if ($ultimoTexto !== '' && mb_strtolower($ultimoTexto, 'UTF-8') === mb_strtolowe
     redirecionarMural('aviso', 'Você já enviou esta mesma mensagem recentemente.');
 }
 
-// 5. Inserção segura com PDO Prepared Statement (aprovada = 0 por padrão)
+// 5. Inserção segura com PDO Prepared Statement (aprovada = 1 para exibição imediata)
 try {
     $stmt = $pdo->prepare(
-        'INSERT INTO mensagens (nome, texto, aprovada, data) VALUES (:nome, :texto, 0, :data)'
+        'INSERT INTO mensagens (nome, texto, aprovada, data) VALUES (:nome, :texto, 1, :data)'
     );
     $stmt->execute([
         ':nome'  => $nome,
@@ -87,7 +87,7 @@ try {
 
     redirecionarMural(
         'sucesso',
-        'Obrigado pela sua participação na feira Síntese! Sua mensagem foi enviada e aparecerá no mural assim que for aprovada pela equipe.'
+        'Obrigado pela sua participação na feira Síntese! Sua mensagem já foi publicada no mural.'
     );
 } catch (Throwable $e) {
     redirecionarMural('erro', 'Não foi possível salvar sua mensagem no momento. Tente novamente em instantes.');
